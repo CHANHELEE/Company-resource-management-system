@@ -26,6 +26,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.webjars:bootstrap:5.2.3'
+	implementation 'org.webjars:webjars-locator:0.45'
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	implementation 'org.flywaydb:flyway-core'
@@ -48,6 +51,22 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
+//def querydslDir = layout.buildDirectory.dir("generated/querydsl").get().asFile
+//
+//querydsl {
+//	jpa = true
+//	querydslSourcesDir = querydslDir
+//}
+//sourceSets {
+//	main.java.srcDir querydslDir
+//}
+//configurations {
+//	querydsl.extendsFrom compileClasspath
+//}
+//compileQuerydsl {
+//	options.annotationProcessorPath = configurations.querydsl
+//}
+
 def querydslDir = layout.buildDirectory.dir("generated/querydsl").get().asFile
 
 querydsl {
@@ -63,3 +82,9 @@ configurations {
 compileQuerydsl {
 	options.annotationProcessorPath = configurations.querydsl
 }
+
+compileQuerydsl.doFirst {
+	if(file(querydslDir).exists() )
+	delete(file(querydslDir))
+}
+
