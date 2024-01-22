@@ -4,21 +4,23 @@
 >
 <head th:replace="fragments/header :: header">Header</head>
 
-<body>
-<div id="app" class="app">
-<!--    <div th:replace="fragments/nav :: nav"></div>-->
+    <body>
+        <div id="app" class="app row">
+            <!--    <div th:replace="fragments/nav :: nav"></div>-->
+            <div class="col-2 col-sm-3 col-md-3 col-lg-3 col-xl-2">
+                <div class="col-4" th:replace="fragments/sidebar :: sidebar"></div>
+            </div>
 
-<!--    <div th:replace="fragments/sidebar :: sidebar"></div>-->
+            <div class="app-content col-10 col-sm-9 col-md-9 col-lg-9">
+                <div layout:fragment="content">Page Content</div>
+            </div>
 
-    <div class="app-content">
-        <div layout:fragment="content">Page Content</div>
-    </div>
-
-<!--    <div th:replace="fragments/footer"></div>-->
-</div>
-<!--<div th:replace="fragments/ajaxSpinner :: ajax-spinner"></div>-->
-<!--<th:block th:replace="fragments/scripts :: scripts"/>-->
-<!--<th:block layout:fragment="script" th:with="contextPath=${@environment.getProperty('server.servlet.context-path')}"/>-->
-<script th:src="@{/webjars/bootstrap/5.2.3/js/bootstrap.min.js}"></script>
-</body>
+            <!--    <div th:replace="fragments/footer"></div>-->
+        </div>
+        <!--<div th:replace="fragments/ajaxSpinner :: ajax-spinner"></div>-->
+        <!--<th:block th:replace="fragments/scripts :: scripts"/>-->
+        <!--<th:block layout:fragment="script" th:with="contextPath=${@environment.getProperty('server.servlet.context-path')}"/>-->
+        <script th:src="@{/webjars/bootstrap/5.2.3/js/bootstrap.bundle.js}"></script>
+        <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css}" />
+    </body>
 </html>
