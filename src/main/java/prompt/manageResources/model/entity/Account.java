@@ -20,6 +20,8 @@ import java.time.Instant;
 @SQLDelete(sql = "UPDATE account SET del_yn = 'Y' WHERE id=?")
 public class Account {
 
+    public static final String ANONYMOUS = "ANONYMOUS";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -56,5 +58,9 @@ public class Account {
     @Column(name = "is_deleted")
     @Convert(converter = BooleanToYNConverter.class)
     private boolean is_deleted = false;
+
+    public void setPassword(String pw) {
+        this.password = pw;
+    }
 
 }

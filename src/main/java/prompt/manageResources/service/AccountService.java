@@ -6,8 +6,10 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import prompt.manageResources.model.entity.Account;
+import prompt.manageResources.model.helper.AccountAdapter;
 import prompt.manageResources.repository.AccountRepository;
 
 @Service
@@ -16,6 +18,7 @@ import prompt.manageResources.repository.AccountRepository;
 public class AccountService implements UserDetailsService {
 
     private final AccountRepository accountRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -24,11 +27,17 @@ public class AccountService implements UserDetailsService {
         if (account == null) {
             throw new UsernameNotFoundException("USERNAME NOT FOUND");
         }
-        return User.builder()
-                .username(account.getUserName())
-                .password(account.getPassword())
-                .roles(account.getAuth().toString())
-                .build();
+
+        return new AccountAdapter(account);
+    }
+
+    public void save(Account account) {
+        account.setPassword(encodePassword(account.getPassword()));
+        accountRepository.save(account);
+    }
+
+    public String encodePassword(String pw) {
+        return passwordEncoder.encode(pw);
     }
 
 }
