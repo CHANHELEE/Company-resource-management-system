@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<body lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/app}"
+      xmlns:padding-right="http://www.w3.org/1999/xhtml">
+<div layout:fragment="content">
+    <div class="container">
+        <div class="row mt-4">
+            <div class="input-form col-md-12 mx-auto">
+                <h4 class="mb-3">직원등록</h4>
+                <form th:action="@{/admin/account/new}" th:method="post" class="validation-form" novalidate="">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="name">이름 <span class="required">(필수항목)</span></label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder=""
+                                   required="이름을 입력해주세요.">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="userId">사용자 아이디 <span class="required">(필수항목)</span></label>
+                            <input type="text" class="form-control" id="userId" name="userId" placeholder=""
+                                   required="사용자 아이디를 입력해주세요.">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email">이메일 <span class="required">(필수항목)</span></label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com"
+                               required="이메일을 입력해주세요.">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password">비밀번호</label>
+                        <input class="form-control bg-secondary" type="text" value="abc123" id="password" name="password" readonly>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="auth">사용자권한</label>
+                        <select class="form-select" id="auth" name="auth" aria-label="Default select example">
+                            <option value="USER" selected>사용자</option>
+                            <option value="ADMIN">관리자</option>
+                        </select>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-8 mb-3">
+                            <label for="position">직급</label>
+                            <select class="form-select" id="position" name="position"
+                                    aria-label="Default select example">
+                                <option value="ASSISTANT" selected>전임</option>
+                                <option value="SENIOR_ASSISTANT">선임</option>
+                                <option value="MANAGER">책임</option>
+                                <option value="SENIOR_MANAGER">수석</option>
+                                <option value="HEADER">대표</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="dept">소속부서</label>
+                            <select class="form-select" id="dept" name="dept" aria-label="Default select example">
+                                <option value="DEV" selected>개발</option>
+                                <option value="DESING">디자인</option>
+                                <option value="SALES">영업</option>
+                                <option value="HR">인사</option>
+                            </select>
+                        </div>
+                    </div>
+                    <hr class="mb-4">
+                    <div class="mb-4"></div>
+                    <button class="btn btn-primary btn-lg btn-block" id="submitButton" type="submit">
+                        <span class="spinner-border spinner-border-sm visually-hidden" role="status"
+                              aria-hidden="false"></span> 등록
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block layout:fragment="script">
+    <script th:src="@{/js/admin-account-manager.js}"></script>
+    <script>
+        new adminAccountManager();
+    </script>
+</th:block>
+</body>
