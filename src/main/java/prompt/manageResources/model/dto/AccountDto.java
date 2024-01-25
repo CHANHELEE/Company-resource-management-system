@@ -1,6 +1,7 @@
 package prompt.manageResources.model.dto;
 
 
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,12 +15,13 @@ import java.time.Instant;
 @Setter
 @Builder
 public class AccountDto {
+    private Long id;
 
-    public String userId;
+    private String userId;
 
-    public String name;
+    private String name;
 
-    public String email;
+    private String email;
 
     private Auth auth;
 
@@ -31,6 +33,19 @@ public class AccountDto {
 
     private Instant createDt;
 
-    private String is_deleted;
+    private Boolean is_deleted;
 
+    @QueryProjection
+    public AccountDto(Long id, String userId, String name, String email, Auth auth, Dept dept, Position position, Instant updateDt, Instant createDt, Boolean is_deleted) {
+        this.id = id;
+        this.userId = userId;
+        this.name = name;
+        this.email = email;
+        this.auth = auth;
+        this.dept = dept;
+        this.position = position;
+        this.updateDt = updateDt;
+        this.createDt = createDt;
+        this.is_deleted = is_deleted;
+    }
 }

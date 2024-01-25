@@ -13,4 +13,8 @@ public enum Dept {
     HR("인사");
 
     private final String dept;
+
+    public String getDept() {
+        return this.dept;
+    }
 }

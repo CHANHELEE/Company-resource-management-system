@@ -19,7 +19,7 @@ import java.time.Instant;
 @Getter
 @Setter
 @NoArgsConstructor
-@SQLDelete(sql = "UPDATE account SET del_yn = 'Y' WHERE id=?")
+@SQLDelete(sql = "UPDATE account SET is_deleted = 'Y' WHERE id=?")
 public class Account {
 
     public static final String ANONYMOUS = "ANONYMOUS";

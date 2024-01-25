@@ -2,11 +2,15 @@ package prompt.manageResources.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import prompt.manageResources.model.dto.AccountDto;
 import prompt.manageResources.model.dto.PrivateAccountDto;
 import prompt.manageResources.model.entity.Account;
 import prompt.manageResources.model.helper.AccountAdapter;
@@ -24,6 +28,14 @@ public class AccountService implements UserDetailsService {
 
     public Account findByUserName(String userName) {
         return accountRepository.findByUserName(userName);
+    }
+
+    public AccountDto findById(Long id) {
+        return accountRepository.findById(id).map(accountMapper::toAccountDto).orElse(null);
+    }
+
+    public void deleteById(Long id) {
+        accountRepository.deleteById(id);
     }
 
     @Override
@@ -45,6 +57,10 @@ public class AccountService implements UserDetailsService {
 
     public String encodePassword(String pw) {
         return passwordEncoder.encode(pw);
+    }
+
+    public Page<AccountDto> findAllByConditions(AccountDto accountDto, Pageable pageable) {
+        return accountRepository.findAllByConditions(accountDto, pageable);
     }
 
 }
