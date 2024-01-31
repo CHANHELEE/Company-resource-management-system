@@ -12,6 +12,8 @@ import prompt.manageResources.model.enums.Position;
 @Setter
 @Builder
 public class PrivateAccountDto {
+    private Long id;
+
     private String userId;
 
     private String name;

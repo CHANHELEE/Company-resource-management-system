@@ -1,10 +1,11 @@
 package prompt.manageResources.controller.admin;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,12 +29,13 @@ public class AdminAccountController {
     private final AccountService accountService;
 
     @GetMapping("")
-    public String index(@PageableDefault(page = 0, size = 10) Pageable pageable, @ModelAttribute AccountDto accountDto, Model model) {
+    public String index(@PageableDefault(page = 0, size = 10) Pageable pageable, @ModelAttribute AccountDto accountDto, Model model, HttpServletRequest request) {
         Page<AccountDto> results = accountService.findAllByConditions(accountDto, pageable);
 
         model.addAttribute("results", results.getContent());
         model.addAttribute("resultCnt", results.getTotalElements());
         model.addAttribute("pagination", results);
+        model.addAttribute("request", request);
         return "/apps/admin/account/index";
     }
 
@@ -49,9 +51,18 @@ public class AdminAccountController {
     }
 
     @GetMapping("/show/{id}")
-    public String show(@PathVariable Long id) {
+    public String show(@PathVariable Long id, Model model) {
+        AccountDto account = accountService.findById(id);
+        model.addAttribute("account", account);
         return "apps/admin/account/show";
     }
+
+    @PostMapping("/update")
+    public String updateAccount(@ModelAttribute PrivateAccountDto privateAccountDto) {
+        accountService.update(privateAccountDto);
+        return "redirect:/admin/account";
+    }
+
 
     @DeleteMapping("/delete/{id}")
     @ResponseBody
@@ -59,11 +70,11 @@ public class AdminAccountController {
         try {
             accountService.deleteById(id);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(ExceptionUtils.getStackTrace(e));
             return ResponseEntity.internalServerError().build();
         }
-
-        return ResponseEntity.ok(new CommonResponse<>(true, null));
+        String redirectUrl = "/admin/account";
+        return ResponseEntity.ok(new CommonResponse<>(true, redirectUrl));
     }
 
     @PostMapping("/validate/id")

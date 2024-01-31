@@ -13,11 +13,12 @@ class adminAccountManager {
         const self = this;
 
         const submitButton = document.getElementById("submitButton");
-        const deleteButton = document.getElementById("deleteButton");
+        const updateButton = document.getElementById("updateButton");
+        const deleteButtons = document.querySelectorAll(".deleteButton");
 
         //직원등록
         if (submitButton) {
-            document.getElementById("submitButton").addEventListener("click", async function (e) {
+            submitButton.addEventListener("click", async function (e) {
 
                 e.preventDefault();
                 const closestForm = this.closest("form");
@@ -56,32 +57,68 @@ class adminAccountManager {
         }
 
         //직원삭제
-        if (deleteButton) {
-            deleteButton.addEventListener("click", async function () {
-                const is_confirm = confirm("id를 삭제하시겠습니까?");
-                if (is_confirm) {
-                    const userId = this.getAttribute('data-id');
-                    const url = `/admin/account/delete/${userId}`
-                    try {
-                        const response = await fetch(url, {
-                            method: 'DELETE',
-                            headers: {
-                                [self.header]: self.token
-                            }
-                        })
+        if (deleteButtons) {
+            deleteButtons.forEach(deleteButton => {
+                deleteButton.addEventListener("click", async function () {
+                    const is_confirm = confirm("ID를 삭제하시겠습니까?");
+                    if (is_confirm) {
+                        const spinnerElement = this.querySelector(".spinner-border");
+                        const userId = this.getAttribute('data-id');
+                        const url = `/admin/account/delete/${userId}`
 
-                        const parsedResponse = await response.json();
-                        if (parsedResponse.flag) {
-                            location.reload();
-                        } else {
-                            throw new Error('Network response was not ok');
+                        if (spinnerElement) {
+                            this.disabled = true;
+                            spinnerElement.classList.remove("visually-hidden");
                         }
-                    } catch (error) {
-                        console.log(error);
-                        alert("ID 삭제 에러입니다.\n관리자에게 문의해주세요.");
+
+                        try {
+                            const response = await fetch(url, {
+                                method: 'DELETE',
+                                headers: {
+                                    [self.header]: self.token
+                                }
+                            })
+
+                            const parsedResponse = await response.json();
+                            if (parsedResponse.flag) {
+                                // location.reload();
+                                debugger;
+                                window.location.href = parsedResponse.result;
+                            } else {
+                                throw new Error('Network response was not ok');
+                            }
+                        } catch (error) {
+                            console.log(error);
+                            alert("ID 삭제 에러입니다.\n관리자에게 문의해주세요.");
+                        }
                     }
-                }
+                })
             });
+        }
+
+        if (updateButton) {
+            updateButton.addEventListener('click', function (e) {
+                e.preventDefault();
+                const spinnerElement = this.querySelector(".spinner-border");
+                const closestForm = this.closest("form");
+                const is_confirm = confirm("ID를 수정하시겠습니까?")
+
+                if (is_confirm) {
+                    if (!closestForm.checkValidity()) {
+                        document.querySelectorAll(".required").forEach(tg => {
+                            tg.classList.add("text-danger");
+                        });
+                        return alert("필수항목이 누락되었습니다.");
+                    }
+
+                    if (spinnerElement) {
+                        this.disabled = true;
+                        spinnerElement.classList.remove("visually-hidden");
+                    }
+                    closestForm.submit();
+                }
+
+            })
         }
     }
 

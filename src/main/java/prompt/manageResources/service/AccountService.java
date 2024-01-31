@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 import prompt.manageResources.model.dto.AccountDto;
 import prompt.manageResources.model.dto.PrivateAccountDto;
 import prompt.manageResources.model.entity.Account;
@@ -34,6 +36,19 @@ public class AccountService implements UserDetailsService {
         return accountRepository.findById(id).map(accountMapper::toAccountDto).orElse(null);
     }
 
+    @Transactional
+    public void update(PrivateAccountDto privateAccount) {
+        Account account = accountRepository.findById(privateAccount.getId()).orElseThrow(() -> new IllegalArgumentException("Account not found"));
+        account.setAuth(privateAccount.getAuth());
+        account.setEmail(privateAccount.getEmail());
+        account.setPosition(privateAccount.getPosition());
+        account.setDept(privateAccount.getDept());
+        if(!ObjectUtils.isEmpty(privateAccount.getPassword())) {
+            account.setPassword(encodePassword(privateAccount.getPassword()));
+        }
+        accountRepository.save(account);
+    }
+
     public void deleteById(Long id) {
         accountRepository.deleteById(id);
     }
@@ -55,7 +70,7 @@ public class AccountService implements UserDetailsService {
         accountRepository.save(account);
     }
 
-    public String encodePassword(String pw) {
+    private String encodePassword(String pw) {
         return passwordEncoder.encode(pw);
     }
 

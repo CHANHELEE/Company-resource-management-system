@@ -45,10 +45,13 @@ dependencies {
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+	// querydsl start
 	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
-	annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
+	annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
 	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
 	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+	// querydsl end
+
 }
 
 tasks.named('test') {
@@ -71,7 +74,7 @@ tasks.named('test') {
 //	options.annotationProcessorPath = configurations.querydsl
 //}
 
-def querydslDir = layout.buildDirectory.dir("generated/querydsl").get().asFile
+def querydslDir = layout.buildDirectory.dir("generated").get().asFile
 
 querydsl {
 	jpa = true

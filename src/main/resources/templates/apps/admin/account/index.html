@@ -25,19 +25,26 @@
                 th:each="result, iter : ${results}">
                 <th scope="row">1</th>
                 <td><a class="link-secondary" th:text="${result.userId}"
-                       th:href="@{/admin/account/show/{result.id}(id=${result.id})}"></a>
+                       th:href="@{/admin/account/show/{id}(id= ${result.id})}"></a>
                 </td>
                 <td th:text="${result.name}"></td>
                 <td th:text="${result.dept.dept}"></td>
                 <td th:text="${result.position.position}"></td>
                 <td class="py-1">
-                    <button type="button" class="btn btn-danger btn-sm" id="deleteButton" th:data-id="${result.id}">삭제
+                    <button type="button" class="btn btn-danger btn-sm deleteButton" id="deleteButton"
+                            th:data-id="${result.id}">삭제
                     </button>
                 </td>
             </tr>
         </th:block>
         </tbody>
     </table>
+    <div class="d-flex justify-content-end">
+        <a class="btn btn-primary btn-block" href="/admin/account/new">
+            등록
+        </a>
+    </div>
+    <div th:replace="fragments/pagination :: pagination">Pagination</div>
 </div>
 <th:block layout:fragment="script">
     <script th:src="@{/js/admin-account-manager.js}"></script>

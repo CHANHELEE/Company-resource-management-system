@@ -1,0 +1,20 @@
+<div class="d-flex justify-content-center"  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:th="http://www.thymeleaf.org"
+     th:fragment="pagination">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item" th:if="${pagination.number != 1}">
+                <a class="page-link" th:href="@{__${request.requestURI}__(page=${pagination.number-1})}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item" th:each="i : ${#numbers.sequence(0, pagination.totalPages-1)}" th:class="${i == pagination.number} ? 'active'"><a class="page-link" th:href="@{__${request.requestURI}__(page=${i})}" th:text="${i+1}"></a></li>
+            <li class="page-item">
+                <a class="page-link" th:href="@{__${request.requestURI}__(page=${pagination.number+1})}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
