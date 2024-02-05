@@ -18,6 +18,8 @@ import prompt.manageResources.model.response.CommonResponse;
 import prompt.manageResources.service.AccountService;
 
 import org.springframework.data.domain.Pageable;
+import prompt.manageResources.service.MileageHistService;
+import prompt.manageResources.service.MileageService;
 
 
 @Controller
@@ -27,11 +29,12 @@ import org.springframework.data.domain.Pageable;
 public class AdminAccountController {
 
     private final AccountService accountService;
+    private final MileageService mileageService;
+    private final MileageHistService mileageHistService;
 
     @GetMapping("")
-    public String index(@PageableDefault(page = 0, size = 10) Pageable pageable, @ModelAttribute AccountDto accountDto, Model model, HttpServletRequest request) {
+    public String index(@PageableDefault(page = 0, size = 1) Pageable pageable, @ModelAttribute AccountDto accountDto, Model model, HttpServletRequest request) {
         Page<AccountDto> results = accountService.findAllByConditions(accountDto, pageable);
-
         model.addAttribute("results", results.getContent());
         model.addAttribute("resultCnt", results.getTotalElements());
         model.addAttribute("pagination", results);
@@ -46,7 +49,9 @@ public class AdminAccountController {
 
     @PostMapping("/new")
     public String saveAccount(@ModelAttribute PrivateAccountDto privateAccountDto) {
-        accountService.save(privateAccountDto);
+        Account account = accountService.save(privateAccountDto);
+        mileageService.initSave(account);
+        mileageHistService.initSave(account);
         return "redirect:/admin/account";
     }
 

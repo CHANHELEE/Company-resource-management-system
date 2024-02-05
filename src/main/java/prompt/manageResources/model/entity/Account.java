@@ -13,6 +13,8 @@ import prompt.manageResources.model.enums.Dept;
 import prompt.manageResources.model.enums.Position;
 import prompt.manageResources.util.BooleanToYNConverter;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "account")
@@ -60,6 +62,22 @@ public class Account {
     @Column(name = "is_deleted")
     @Convert(converter = BooleanToYNConverter.class)
     private boolean is_deleted = false;
+
+    @OneToMany(mappedBy = "account")
+    private List<Equipment> equipments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "account")
+    private List<EquipmentOwnershipHist> equipmentOwnershipHists = new ArrayList<>();
+
+    @OneToMany(mappedBy = "account")
+    private List<EquipmentRequest> equipmentRequests = new ArrayList<>();
+
+    @OneToMany(mappedBy = "account")
+    private List<MileageHist> mileageHists = new ArrayList<>();
+
+    @OneToOne(mappedBy = "account")
+    private Mileage mileage;
+
 
     public void setPassword(String pw) {
         this.password = pw;

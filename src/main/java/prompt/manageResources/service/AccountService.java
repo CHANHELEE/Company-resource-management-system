@@ -3,7 +3,6 @@ package prompt.manageResources.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -64,10 +63,10 @@ public class AccountService implements UserDetailsService {
         return new AccountAdapter(account);
     }
 
-    public void save(PrivateAccountDto privateAccount) {
+    public Account save(PrivateAccountDto privateAccount) {
         privateAccount.setPassword(encodePassword(privateAccount.getPassword()));
         Account account = accountMapper.toAccount(privateAccount);
-        accountRepository.save(account);
+        return accountRepository.save(account);
     }
 
     private String encodePassword(String pw) {
