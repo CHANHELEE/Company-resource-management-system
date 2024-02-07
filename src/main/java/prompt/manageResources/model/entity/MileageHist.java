@@ -36,7 +36,7 @@ public class MileageHist {
     @CreationTimestamp
     private Instant createDt;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 

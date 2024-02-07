@@ -13,10 +13,14 @@ public class MileageHistService {
 
     private final MileageHistRepository mileageHistRepository;
 
-    public MileageHist initSave(Account account) {
-        MileageHist mileageHist = new MileageHist();
-        mileageHist.setAccount(account);
-        mileageHist.setUpdateReason(UpdateReason.NEW);
+//    public MileageHist initSave(Account account) {
+//        MileageHist mileageHist = new MileageHist();
+//        mileageHist.setAccount(account);
+//        mileageHist.setUpdateReason(UpdateReason.NEW);
+//        return mileageHistRepository.save(mileageHist);
+//    }
+
+    public MileageHist save(MileageHist mileageHist) {
         return mileageHistRepository.save(mileageHist);
     }
 

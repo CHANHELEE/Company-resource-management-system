@@ -1,6 +1,7 @@
 package prompt.manageResources.model.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,7 @@ import prompt.manageResources.model.enums.Auth;
 import prompt.manageResources.model.enums.Dept;
 import prompt.manageResources.model.enums.Position;
 import prompt.manageResources.util.BooleanToYNConverter;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +38,7 @@ public class Account {
     @Column(nullable = false)
     private String name;
 
+    @JsonIgnore
     @Column(nullable = false)
     private String password;
 
@@ -63,19 +66,20 @@ public class Account {
     @Convert(converter = BooleanToYNConverter.class)
     private boolean is_deleted = false;
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
     private List<Equipment> equipments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
     private List<EquipmentOwnershipHist> equipmentOwnershipHists = new ArrayList<>();
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
     private List<EquipmentRequest> equipmentRequests = new ArrayList<>();
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
     private List<MileageHist> mileageHists = new ArrayList<>();
 
-    @OneToOne(mappedBy = "account")
+    @OneToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "mileage_id", nullable = false)
     private Mileage mileage;
 
 

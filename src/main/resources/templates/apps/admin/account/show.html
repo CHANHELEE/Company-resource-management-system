@@ -9,7 +9,7 @@
     <div class="row mt-4">
         <div class="input-form col-md-12 mx-auto">
             <h4 class="mb-3">직원등록</h4>
-            <form th:action="@{/admin/account/update}" th:method="post" class="validation-form" novalidate="">
+            <form th:action="@{/admin/accounts/update}" th:method="post" class="validation-form" novalidate="">
                 <input hidden th:value="${account.id}" th:name="id"/>
                 <div class="row">
                     <div class="col-md-6 mb-3">

@@ -47,13 +47,13 @@ public class Equipment {
     @CreationTimestamp
     private Instant createDt;
 
-    @OneToMany(mappedBy = "equipment")
+    @OneToMany(mappedBy = "equipment", fetch = FetchType.LAZY)
     private List<EquipmentOwnershipHist> equipmentOwnershipHists = new ArrayList<>();
 
-    @OneToMany(mappedBy = "equipment")
+    @OneToMany(mappedBy = "equipment", fetch = FetchType.LAZY)
     private List<EquipmentRequest> equipmentRequests = new ArrayList<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
     private Account account;
 }

@@ -1,5 +1,6 @@
 package prompt.manageResources.model.entity;
 
+import groovyjarjarantlr4.v4.runtime.misc.NotNull;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,8 +29,10 @@ public class Mileage {
     @CreationTimestamp
     private Instant createDt;
 
-    @OneToOne
-    @JoinColumn(name = "account_id", nullable = false)
+    //lazy 설정을 해도 , eager로 동작함
+    //-> OneToOne 관계에서 연관관계의 주인이 아니기 때문.
+    @NotNull
+    @OneToOne(mappedBy = "mileage", optional = false)
     private Account account;
 
 }

@@ -25,7 +25,7 @@
                 th:each="result, iter : ${results}">
                 <th scope="row">1</th>
                 <td><a class="link-secondary" th:text="${result.userId}"
-                       th:href="@{/admin/account/show/{id}(id= ${result.id})}"></a>
+                       th:href="@{/admin/accounts/{id}(id= ${result.id})}"></a>
                 </td>
                 <td th:text="${result.name}"></td>
                 <td th:text="${result.dept.dept}"></td>
@@ -40,7 +40,7 @@
         </tbody>
     </table>
     <div class="d-flex justify-content-end">
-        <a class="btn btn-primary btn-block" href="/admin/account/new">
+        <a class="btn btn-primary btn-block" href="/admin/accounts/new">
             등록
         </a>
     </div>

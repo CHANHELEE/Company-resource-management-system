@@ -64,7 +64,7 @@ class adminAccountManager {
                     if (is_confirm) {
                         const spinnerElement = this.querySelector(".spinner-border");
                         const userId = this.getAttribute('data-id');
-                        const url = `/admin/account/delete/${userId}`
+                        const url = `/admin/accounts/${userId}`
 
                         if (spinnerElement) {
                             this.disabled = true;
@@ -125,7 +125,7 @@ class adminAccountManager {
     //ID 중복체크
     async validateUsername(userId) {
         const self = this;
-        const url = '/admin/account/validate/id';
+        const url = '/admin/accounts/validate/id';
         debugger;
         try {
             const response = await fetch(url, {

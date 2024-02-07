@@ -35,6 +35,8 @@ public class AccountDto {
 
     private Boolean is_deleted;
 
+//    private EquipmentRequestDto equipmentRequestDto;
+
     @QueryProjection
     public AccountDto(Long id, String userId, String name, String email, Auth auth, Dept dept, Position position, Instant updateDt, Instant createDt, Boolean is_deleted) {
         this.id = id;

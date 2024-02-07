@@ -22,11 +22,24 @@
                                     class="ms-1 d-none d-sm-inline">자원관리</span> </a>
                             <ul class="collapse nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
                                 <li class="px-2">
-                                    <a href="/admin/resource/hist" class="nav-link px-0">이력
+                                    <a href="/admin/resource-requests/request/qwdwq" class="nav-link px-0">이력
                                     </a>
                                 </li>
                                 <li class="px-2">
-                                    <a href="#" class="nav-link px-0">요청
+                                    <a href="/admin/resource-requests" class="nav-link px-0">요청
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </th:block>
+                    <th:block sec:authorize="hasRole('ROLE_USER')">
+                        <li>
+                            <a href="#submenu1" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
+                                <i class="fs-4 bi-speedometer2"></i> <span
+                                    class="ms-1 d-none d-sm-inline">자원관리</span> </a>
+                            <ul class="collapse nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
+                                <li class="px-2">
+                                    <a href="/resource/request/hist" class="nav-link px-0">요청이력
                                     </a>
                                 </li>
                             </ul>
@@ -39,7 +52,7 @@
                     </li>
                     <th:block sec:authorize="hasRole('ROLE_ADMIN')">
                         <li>
-                            <a href="/admin/account" class="nav-link px-0 align-middle">
+                            <a href="/admin/accounts" class="nav-link px-0 align-middle">
                                 <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">사용자관리</span>
                             </a>
                         </li>

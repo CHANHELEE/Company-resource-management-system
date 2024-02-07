@@ -14,9 +14,13 @@ import org.springframework.util.ObjectUtils;
 import prompt.manageResources.model.dto.AccountDto;
 import prompt.manageResources.model.dto.PrivateAccountDto;
 import prompt.manageResources.model.entity.Account;
+import prompt.manageResources.model.entity.Mileage;
+import prompt.manageResources.model.entity.MileageHist;
 import prompt.manageResources.model.helper.AccountAdapter;
 import prompt.manageResources.model.mapper.AccountMapper;
 import prompt.manageResources.repository.AccountRepository;
+import prompt.manageResources.repository.MileageHistRepository;
+import prompt.manageResources.repository.MileageRepository;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +28,8 @@ import prompt.manageResources.repository.AccountRepository;
 public class AccountService implements UserDetailsService {
 
     private final AccountRepository accountRepository;
+    private final MileageRepository mileageRepository;
+    private final MileageHistRepository mileageHistRepository;
     private final PasswordEncoder passwordEncoder;
     private final AccountMapper accountMapper;
 
@@ -33,6 +39,19 @@ public class AccountService implements UserDetailsService {
 
     public AccountDto findById(Long id) {
         return accountRepository.findById(id).map(accountMapper::toAccountDto).orElse(null);
+    }
+
+    @Transactional
+    public void initSave(PrivateAccountDto privateAccountDto) {
+        Mileage mileage = mileageRepository.save(new Mileage());
+
+        privateAccountDto.setPassword(encodePassword(privateAccountDto.getPassword()));
+        Account account = accountMapper.toAccount(privateAccountDto);
+        account.setMileage(mileage);
+
+        MileageHist mileageHist = new MileageHist();
+        mileageHist.setAccount(accountRepository.save(account));
+        mileageHistRepository.save(mileageHist);
     }
 
     @Transactional
@@ -61,12 +80,6 @@ public class AccountService implements UserDetailsService {
         }
 
         return new AccountAdapter(account);
-    }
-
-    public Account save(PrivateAccountDto privateAccount) {
-        privateAccount.setPassword(encodePassword(privateAccount.getPassword()));
-        Account account = accountMapper.toAccount(privateAccount);
-        return accountRepository.save(account);
     }
 
     private String encodePassword(String pw) {

@@ -25,15 +25,13 @@ import prompt.manageResources.service.MileageService;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/admin/account")
+@RequestMapping("/admin/accounts")
 public class AdminAccountController {
 
     private final AccountService accountService;
-    private final MileageService mileageService;
-    private final MileageHistService mileageHistService;
 
     @GetMapping("")
-    public String index(@PageableDefault(page = 0, size = 1) Pageable pageable, @ModelAttribute AccountDto accountDto, Model model, HttpServletRequest request) {
+    public String index(@PageableDefault(page = 0, size = 10) Pageable pageable, @ModelAttribute AccountDto accountDto, Model model, HttpServletRequest request) {
         Page<AccountDto> results = accountService.findAllByConditions(accountDto, pageable);
         model.addAttribute("results", results.getContent());
         model.addAttribute("resultCnt", results.getTotalElements());
@@ -49,27 +47,25 @@ public class AdminAccountController {
 
     @PostMapping("/new")
     public String saveAccount(@ModelAttribute PrivateAccountDto privateAccountDto) {
-        Account account = accountService.save(privateAccountDto);
-        mileageService.initSave(account);
-        mileageHistService.initSave(account);
-        return "redirect:/admin/account";
+        accountService.initSave(privateAccountDto);
+        return "redirect:/admin/accounts";
     }
 
-    @GetMapping("/show/{id}")
+    @GetMapping("/{id}")
     public String show(@PathVariable Long id, Model model) {
         AccountDto account = accountService.findById(id);
         model.addAttribute("account", account);
-        return "apps/admin/account/show";
+        return "apps/admin/accounts/show";
     }
 
     @PostMapping("/update")
     public String updateAccount(@ModelAttribute PrivateAccountDto privateAccountDto) {
         accountService.update(privateAccountDto);
-        return "redirect:/admin/account";
+        return "redirect:/admin/accounts";
     }
 
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     @ResponseBody
     public ResponseEntity<?> delete(@PathVariable Long id) {
         try {
@@ -78,7 +74,7 @@ public class AdminAccountController {
             log.error(ExceptionUtils.getStackTrace(e));
             return ResponseEntity.internalServerError().build();
         }
-        String redirectUrl = "/admin/account";
+        String redirectUrl = "/admin/accounts";
         return ResponseEntity.ok(new CommonResponse<>(true, redirectUrl));
     }
 
