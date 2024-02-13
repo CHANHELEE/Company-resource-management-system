@@ -8,7 +8,7 @@
     <div class="row mt-4">
         <div class="input-form col-md-12 mx-auto">
             <h4 class="mb-3">자원요청</h4>
-            <form th:action="@{/admin/resource-requests/approve}" th:method="post" class="validation-form"
+            <form th:action="@{/admin/resource-requests/update}" th:method="post" class="validation-form"
                   novalidate="" id="requestForm">
                 <input hidden th:value="${equipmentRequest.id}" th:name="id"/>
                 <input hidden th:value="${equipmentRequest.requestStatus}" id="requestStatus" th:name="requestStatus"/>
@@ -46,10 +46,19 @@
                               th:text="${equipmentRequest.requestCn}" readonly></textarea>
                 </div>
 
+                <th:block th:if="${equipmentRequest.requestStatus == RequestStatus.REJECTED}">
+                    <div class="mb-3">
+                        <label for="rejectReasonForShow">거절사유</label>
+                        <textarea type="text" class="form-control h-50" rows="6" id="rejectReasonForShow"
+                                  th:text="${equipmentRequest.rejectReason}" readonly></textarea>
+                    </div>
+                </th:block>
+
                 <div class="row">
                     <div class="col-md-11 mb-3">
                         <label for="equipmentName">배정자원</label>
-                        <input type="text" class="form-control" id="equipmentName" th:value="${equipmentRequest.equipmentName}" readonly>
+                        <input type="text" class="form-control" id="equipmentName"
+                               th:value="${equipmentRequest.equipmentName}" readonly>
                         <input type="text" class="form-control" id="equipmentId" name="equipmentId" readonly hidden>
                     </div>
                     <th:block th:unless="${equipmentRequest.requestStatus == RequestStatus.APPROVED}">
@@ -62,24 +71,30 @@
                     </th:block>
                 </div>
                 <hr class="mb-4">
-                <th:block th:if="${equipmentRequest.requestStatus == RequestStatus.APPROVED}">
-                    <span class="text-info font-weight-bold" th:text="'승인자 : ' + ${equipmentRequest.confirmUserName}"></span>
+                <th:block th:if="${equipmentRequest.requestStatus != RequestStatus.PENDING}">
+                    <div>
+                        <span class="text-info font-weight-bold"
+                              th:text="'승인자 : ' + ${equipmentRequest.confirmUserName}"></span>
+                    </div>
                 </th:block>
                 <th:block th:unless="${equipmentRequest.requestStatus == RequestStatus.APPROVED}">
-                    <button type="button" class="btn btn-danger btn-lg deleteButton" id="rejectButton">
+                    <button type="button" class="btn btn-danger btn-lg deleteButton" id="rejectModalButton"
+                            data-bs-toggle="modal"
+                            data-bs-target="#resourceRejectModal">
                     <span class="spinner-border spinner-border-sm visually-hidden" role="status"
                           aria-hidden="false"></span>
                         거절
                     </button>
-                    <button class="btn btn-primary btn-lg btn-block" id="approveButton" type="submit">
+                    <button class="btn btn-primary btn-lg btn-block" id="approveButton" type="button">
                         <span class="spinner-border spinner-border-sm visually-hidden" role="status"
                               aria-hidden="false"></span> 승인
                     </button>
                 </th:block>
+                <div th:replace="fragments/modal/resourceSearchModal :: resourceSearchModal">SearchModal</div>
+                <div th:replace="fragments/modal/resourceRejectModal :: resourceRejectModal">RejectModal</div>
             </form>
         </div>
     </div>
-    <div th:replace="fragments/modal/resourceSearchModal :: resourceSearchModal">SearchModal</div>
 </div>
 <th:block layout:fragment="script">
     <script th:src="@{/js/admin-resource-request-manager.js}"></script>

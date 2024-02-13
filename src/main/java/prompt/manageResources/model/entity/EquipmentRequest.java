@@ -41,7 +41,7 @@ public class EquipmentRequest {
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "confirm_account_id")
     private Account confirmAccount;
 

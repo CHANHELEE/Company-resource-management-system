@@ -45,7 +45,7 @@ public class AdminResourceRequestsController {
         return "/apps/admin/resources/show";
     }
 
-    @PostMapping("/approve")
+    @PostMapping("/update")
     public String update(EquipmentRequestDto equipmentRequestDto, @CurrentUser Account currentUser) {
         String equipmentId = equipmentRequestDto.getId().toString();
         equipmentRequestService.confirmEquipmentRequest(equipmentRequestDto, currentUser);

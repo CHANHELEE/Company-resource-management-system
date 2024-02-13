@@ -8,7 +8,7 @@ import lombok.Getter;
 public enum RequestStatus {
     PENDING("대기"),
     APPROVED("승인"),
-    REJECTED("거부");
+    REJECTED("거절");
 
     private final String requestStatus;
 }

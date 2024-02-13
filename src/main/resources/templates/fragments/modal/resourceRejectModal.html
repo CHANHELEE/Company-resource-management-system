@@ -1,0 +1,27 @@
+<div xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:th="http://www.thymeleaf.org"
+     th:fragment="resourceRejectModal">
+    <div class="modal fade" id="resourceRejectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable h-75" id="modalScroll" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">요청거절</h5>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    <label for="rejectReason">거절사유</label>
+                    <textarea type="text" class="form-control h-50" rows="6" id="rejectReason" name="rejectReason"
+                              th:text="${equipmentRequest.rejectReason}"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                    <button class="btn btn-primary btn-block" id="rejectButton" type="button">
+                        <span class="spinner-border spinner-border-sm visually-hidden" role="status"
+                              aria-hidden="false"></span> 제출
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

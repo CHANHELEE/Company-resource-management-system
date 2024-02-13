@@ -17,6 +17,7 @@ public interface EquipmentRequestMapper {
     @Mapping(source = "account.userName", target = "userId")
     @Mapping(source = "account.name", target = "userName")
     @Mapping(source = "account.position", target = "position")
+    @Mapping(source = "account.dept", target = "dept")
     @Mapping(source = "equipment.id", target = "equipmentId")
     @Mapping(source = "equipment.name", target = "equipmentName")
     @Mapping(source = "confirmAccount.id", target = "confirmAccountId", defaultExpression = "java(null)")

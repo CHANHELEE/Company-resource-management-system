@@ -32,14 +32,21 @@ class AdminResourceRequestManager {
             }
         });
 
-        document.getElementById("requestForm").addEventListener("submit", function (e) {
-            e.preventDefault();
+        document.getElementById("approveButton").addEventListener("click", function (e) {
             if (!document.getElementById("equipmentId").value) {
                 return alert("배정자원을 지정해주세요.");
             }
             document.getElementById("requestStatus").value = 'APPROVED';
-            this.submit();
-        })
+            document.getElementById("requestForm").submit();
+        });
+
+        document.getElementById("rejectButton").addEventListener("click", function (e) {
+            document.getElementById("requestStatus").value = 'REJECTED';
+            if (!document.getElementById("rejectReason").value) {
+                return alert("거절사유를 입력해 주세요.");
+            }
+            document.getElementById("requestForm").submit();
+        });
 
     }
 

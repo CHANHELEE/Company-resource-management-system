@@ -2,9 +2,12 @@ package prompt.manageResources.model.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.*;
+import prompt.manageResources.model.enums.Dept;
 import prompt.manageResources.model.enums.Position;
 import prompt.manageResources.model.enums.equipment.Type;
 import prompt.manageResources.model.enums.equipmentRequest.RequestStatus;
+
+import java.time.Instant;
 
 @Getter
 @Setter
@@ -22,6 +25,10 @@ public class EquipmentRequestDto {
 
     private RequestStatus requestStatus;
 
+    private Instant createDt;
+
+    private Instant updateDt;
+
     // account information
     private Long accountId;
 
@@ -30,6 +37,8 @@ public class EquipmentRequestDto {
     private String userName;
 
     private Position position;
+
+    private Dept dept;
 
     // confirm account informantion
     private Long confirmAccountId;
@@ -44,16 +53,19 @@ public class EquipmentRequestDto {
 
 
     @QueryProjection
-    public EquipmentRequestDto(Long id, String requestCn, String rejectReason, Type type, RequestStatus requestStatus, Long accountId, String userName, String name, Position position, Long confirmAccountId, String confirmUserName, Long equipmentId, String equipmentName) {
+    public EquipmentRequestDto(final Long id, final String requestCn, final String rejectReason, final Type type, final RequestStatus requestStatus, final Instant createDt, final Instant updateDt, final Long accountId, final String userId, final String userName, final Position position, final Dept dept, final Long confirmAccountId, final String confirmUserName, final Long equipmentId, final String equipmentName) {
         this.id = id;
         this.requestCn = requestCn;
         this.rejectReason = rejectReason;
         this.type = type;
         this.requestStatus = requestStatus;
+        this.createDt = createDt;
+        this.updateDt = updateDt;
         this.accountId = accountId;
-        this.userId = userName;
-        this.userName = name;
+        this.userId = userId;
+        this.userName = userName;
         this.position = position;
+        this.dept = dept;
         this.confirmAccountId = confirmAccountId;
         this.confirmUserName = confirmUserName;
         this.equipmentId = equipmentId;

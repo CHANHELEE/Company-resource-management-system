@@ -8,9 +8,9 @@
         <tr>
             <th scope="col">#</th>
             <th scope="col">요청장비</th>
-            <th scope="col">이름</th>
+            <th scope="col">이름[직급]</th>
             <th scope="col">부서</th>
-            <th scope="col">직급</th>
+            <th scope="col">요청일</th>
 <!--            <th scope="col"></th>-->
         </tr>
         </thead>
@@ -21,21 +21,16 @@
             </tr>
         </th:block>
         <th:block th:unless="${results.isEmpty()}">
-            <tr class="clickable-row"
+            <tr
                 th:each="result, iter : ${results}">
-                <th scope="row">1</th>
+                <th scope="row" th:text="${iter.count}"></th>
                 <td>
-                    <a class="link-secondary" th:text="'[' + ${result.type.getType} + '] ' + ${result.equipmentName}"
+                    <a class="link-secondary" th:text="${result.type.getType}"
                        th:href="@{/admin/resource-requests/{id}(id= ${result.id})}"></a>
                 </td>
                 <td th:text="${result.userName} + '[' + ${result.position.position} + ']'"></td>
-<!--                <td th:text="${result.dept.dept}"></td>-->
-<!--                <td th:text="${result.position.position}"></td>-->
-<!--                <td class="py-1">-->
-<!--                    <button type="button" class="btn btn-danger btn-sm deleteButton" id="deleteButton"-->
-<!--                            th:data-id="${result.id}">삭제-->
-<!--                    </button>-->
-<!--                </td>-->
+                <td th:text="${result.dept.dept}"></td>
+                <td th:text="${#dates.format(result.createDt, 'yyyy-MM-dd')}"></td>
             </tr>
         </th:block>
         </tbody>
