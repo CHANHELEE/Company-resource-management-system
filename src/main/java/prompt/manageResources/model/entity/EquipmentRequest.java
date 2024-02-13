@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import prompt.manageResources.model.enums.equipment.Type;
+import prompt.manageResources.model.enums.equipmentRequest.RequestStatus;
 
 import java.time.Instant;
 
@@ -32,6 +33,10 @@ public class EquipmentRequest {
     @Column(name = "type")
     @NotNull
     private Type type;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "request_status")
+    private RequestStatus requestStatus;
 
     @ManyToOne
     @JoinColumn(name = "account_id", nullable = false)

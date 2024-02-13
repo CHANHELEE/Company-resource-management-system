@@ -35,6 +35,7 @@ public class EquipmentRequestRepositoryImpl implements EquipmentRequestCustomRep
                                 equipmentRequest.requestCn,
                                 equipmentRequest.rejectReason,
                                 equipmentRequest.type,
+                                equipmentRequest.requestStatus,
                                 account.id,
                                 account.userName,
                                 account.name,
