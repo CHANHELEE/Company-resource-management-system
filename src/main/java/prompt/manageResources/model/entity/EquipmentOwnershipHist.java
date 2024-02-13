@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import prompt.manageResources.model.enums.equipment.OwnershipChangeReason;
 
 import java.time.Instant;
 
@@ -20,7 +21,12 @@ public class EquipmentOwnershipHist {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String change_reason;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "ownership_change_reason", nullable = false)
+    private OwnershipChangeReason ownershipChangeReason;
+
+    @Column(length = 1000)
+    private String comments;
 
     @UpdateTimestamp
     private Instant updateDt;

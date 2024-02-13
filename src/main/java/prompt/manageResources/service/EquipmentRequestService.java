@@ -8,10 +8,13 @@ import org.springframework.stereotype.Service;
 import prompt.manageResources.model.dto.EquipmentRequestDto;
 import prompt.manageResources.model.entity.Account;
 import prompt.manageResources.model.entity.Equipment;
+import prompt.manageResources.model.entity.EquipmentOwnershipHist;
 import prompt.manageResources.model.entity.EquipmentRequest;
+import prompt.manageResources.model.enums.equipment.OwnershipChangeReason;
 import prompt.manageResources.model.enums.equipment.Status;
 import prompt.manageResources.model.enums.equipmentRequest.RequestStatus;
 import prompt.manageResources.repository.AccountRepository;
+import prompt.manageResources.repository.EquipmentOwnershipHistRepository;
 import prompt.manageResources.repository.EquipmentRepository;
 import prompt.manageResources.repository.EquipmentRequestRepository;
 
@@ -20,6 +23,7 @@ import prompt.manageResources.repository.EquipmentRequestRepository;
 @Slf4j
 public class EquipmentRequestService {
     private final EquipmentRequestRepository equipmentRequestRepository;
+    private final EquipmentOwnershipHistRepository equipmentOwnershipHistRepository;
     private final EquipmentRepository equipmentRepository;
     private final AccountRepository accountRepository;
 
@@ -43,10 +47,18 @@ public class EquipmentRequestService {
             case APPROVED:
                 Equipment equipment = equipmentRepository.findById(equipmentRequestDto.getEquipmentId()).orElse(null);
                 Account account = accountRepository.findById(equipmentRequestDto.getAccountId()).orElse(null);
+                EquipmentOwnershipHist equipmentOwnershipHist = new EquipmentOwnershipHist();
 
                 equipment.setAccount(account);
                 equipment.setStatus(Status.USING);
-                equipmentRequest.setEquipment(equipmentRepository.save(equipment));
+                equipment = equipmentRepository.save(equipment);
+
+                equipmentOwnershipHist.setAccount(account);
+                equipmentOwnershipHist.setEquipment(equipment);
+                equipmentOwnershipHist.setOwnershipChangeReason(OwnershipChangeReason.APPROVE_REQUEST);
+                equipmentOwnershipHistRepository.save(equipmentOwnershipHist);
+
+                equipmentRequest.setEquipment(equipment);
                 break;
             default:
                 log.error("================================================");

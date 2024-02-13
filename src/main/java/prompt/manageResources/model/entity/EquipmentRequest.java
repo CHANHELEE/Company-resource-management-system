@@ -23,19 +23,18 @@ public class EquipmentRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "request_cn")
+    @Column(name = "request_cn", length = 1000)
     private String requestCn;
 
-    @Column(name = "reject_reason")
+    @Column(name = "reject_reason", length = 1000)
     private String rejectReason;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "type")
-    @NotNull
+    @Column(name = "type", nullable = false)
     private Type type;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "request_status")
+    @Column(name = "request_status", nullable = false)
     private RequestStatus requestStatus;
 
     @ManyToOne
