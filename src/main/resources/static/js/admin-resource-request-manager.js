@@ -7,34 +7,44 @@ class AdminResourceRequestManager {
 
         this.queryParam = {
             page: 0,
-            size: 20
+            size: 15
         }
+
         this.isScrollActive = true;
-        this.addEvent();
+        this.initAddEvent();
     }
 
-    addEvent() {
+    initAddEvent() {
         const self = this;
-        document.getElementById("testBtn").addEventListener("click", function () {
-            self.fetchResources();
-        });
 
         document.getElementById("modalBody").addEventListener("scroll", function () {
             const scrolledHeight = this.scrollTop + this.clientHeight;
             const totalHeight = this.scrollHeight;
-            const IS_BOTTOM = scrolledHeight === totalHeight;
-            if (IS_BOTTOM) {
-                if (self.isScrollActive) {
-                    self.fetchResources();
-                }
+            const IS_BOTTOM = Math.abs(scrolledHeight - totalHeight) <= 5;
+            if (IS_BOTTOM && self.isScrollActive) {
+                self.fetchResources();
             }
         });
+
+        document.getElementById("resourceSearchModal").addEventListener("show.bs.modal", function () {
+            if (self.queryParam.page === 0) {
+                self.fetchResources();
+            }
+        });
+
+        document.getElementById("requestForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+            if (!document.getElementById("equipmentId").value) {
+                return alert("배정자원을 지정해주세요.");
+            }
+            document.getElementById("requestStatus").value = 'APPROVED';
+            this.submit();
+        })
 
     }
 
     fetchResources() {
         const self = this;
-        // debugger;
         let url = new URL("/admin/resource-requests/search", window.location.origin);
         console.log(this.queryParam)
         for (let key in this.queryParam) {
@@ -57,24 +67,39 @@ class AdminResourceRequestManager {
     }
 
     render(resources) {
-        console.log(resources);
-        console.log("render!!!");
         const tableBody = document.getElementById("resourcesTableBody");
         for (const res of resources.results.content) {
             const tr = document.createElement('tr');
-            console.log(res);
-            let tds = `<th scope="row">1</th>
+            let tds = `
+                   <th scope="row">1</th>
                    <td>${res.uniqueNum}</td>
                    <td>${res.name}</td>
                    <td>${res.status === 'UNUSING' ? '가능' : '불가능'}</td>
-                   <td>${res.userName === null ? 'X' : res.userName}</td>`
+                   <td>${res.userName === null ? 'X' : res.userName}</td>`;
+            tr.dataset.id = res.id;
+            tr.dataset.equipmentName = res.name;
+            if (res.status === 'UNUSING') {
+                tr.classList.add('clickable-row');
+            }
             tr.innerHTML = tds;
+
             tableBody.appendChild(tr);
         }
-        this.setFetchData(resources);
+        document.querySelectorAll(".clickable-row").forEach(function (row) {
+            row.addEventListener("click", function () {
+                const equipmentId = row.getAttribute("data-id");
+                const equipmentName = row.getAttribute("data-equipment-name");
+                const modal = bootstrap.Modal.getInstance(document.getElementById("resourceSearchModal"));
+
+                document.getElementById("equipmentId").value = equipmentId;
+                document.getElementById("equipmentName").value = equipmentName;
+                modal.hide();
+            })
+        });
+        this.setFetchConditions(resources);
     }
 
-    setFetchData(resources) {
+    setFetchConditions(resources) {
         this.queryParam.page++;
         if (resources.results.numberOfElements < this.queryParam.size) {
             this.isScrollActive = false;

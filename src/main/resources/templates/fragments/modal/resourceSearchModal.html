@@ -4,7 +4,7 @@
      th:fragment="resourceSearchModal">
     <div class="modal fade" id="resourceSearchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
          aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable h-75" id="modalScroll" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLongTitle">자원조회</h5>
@@ -25,33 +25,12 @@
                             </tr>
                             </thead>
                             <tbody id="resourcesTableBody">
-<!--                                <tr class="clickable-row">-->
-<!--                                    th:each="result, iter : ${results}"-->
-
-<!--                                    <th scope="row">1</th>-->
-<!--                                    <td>2</td>-->
-<!--                                    <td>3</td>-->
-<!--                                    <td>4</td>-->
-<!--                                    <td>5</td>-->
-<!--                                    <td><a class="link-secondary" th:text="${result.userId}"-->
-<!--                                           th:href="@{/admin/account/show/{id}(id= ${result.id})}"></a>-->
-<!--                                    </td>-->
-<!--                                    <td th:text="${result.name}"></td>-->
-<!--                                    <td th:text="${result.dept.dept}"></td>-->
-<!--                                    <td th:text="${result.position.position}"></td>-->
-<!--                                    <td class="py-1">-->
-<!--                                        <button type="button" class="btn btn-danger btn-sm deleteButton" id="deleteButton"-->
-<!--                                                th:data-id="${result.id}">삭제-->
-<!--                                        </button>-->
-<!--                                    </td>-->
-<!--                                </tr>-->
                             </tbody>
                         </table>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                    <button type="button" id="testBtn" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>

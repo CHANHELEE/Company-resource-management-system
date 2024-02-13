@@ -11,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import prompt.manageResources.model.dto.EquipmentDto;
 import prompt.manageResources.model.dto.EquipmentRequestDto;
+import prompt.manageResources.model.entity.Account;
+import prompt.manageResources.model.helper.CurrentUser;
 import prompt.manageResources.model.mapper.EquipmentRequestMapper;
 import prompt.manageResources.model.response.SearchResponse;
 import prompt.manageResources.service.EquipmentRequestService;
@@ -43,10 +45,11 @@ public class AdminResourceRequestsController {
         return "/apps/admin/resources/show";
     }
 
-    @PostMapping("/update")
-    public String update(EquipmentRequestDto equipmentRequestDto, Model model) {
-
-        return "redirect:/admin/resource-requests/{id}";
+    @PostMapping("/approve")
+    public String update(EquipmentRequestDto equipmentRequestDto, @CurrentUser Account currentUser) {
+        String equipmentId = equipmentRequestDto.getId().toString();
+        equipmentRequestService.confirmEquipmentRequest(equipmentRequestDto, currentUser);
+        return "redirect:/admin/resource-requests/".concat(equipmentId);
     }
 
     @GetMapping("/search")
