@@ -4,11 +4,14 @@ import com.querydsl.core.annotations.QueryProjection;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
+import prompt.manageResources.model.enums.Dept;
 import prompt.manageResources.model.enums.Position;
 import prompt.manageResources.model.enums.equipment.Status;
 import prompt.manageResources.model.enums.equipment.Type;
 
 import java.time.Instant;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -26,7 +29,8 @@ public class EquipmentDto {
 
     private Status status;
 
-    private Instant purchasedDt;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate purchasedDt;
 
     private Instant updateDt;
 
@@ -41,8 +45,10 @@ public class EquipmentDto {
 
     private Position position;
 
+    private Dept dept;
+
     @QueryProjection
-    public EquipmentDto(Long id, String uniqueNum, String name, String specification, Type type, Status status, Instant purchasedDt, Instant updateDt, Instant createDt, Long accountId, String userId, String userName, Position position) {
+    public EquipmentDto(Long id, String uniqueNum, String name, String specification, Type type, Status status, LocalDate purchasedDt, Instant updateDt, Instant createDt, Long accountId, String userId, String userName, Position position, Dept dept) {
         this.id = id;
         this.uniqueNum = uniqueNum;
         this.name = name;
@@ -56,5 +62,6 @@ public class EquipmentDto {
         this.userId = userId;
         this.userName = userName;
         this.position = position;
+        this.dept = dept;
     }
 }

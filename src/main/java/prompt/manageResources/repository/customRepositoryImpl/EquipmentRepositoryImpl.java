@@ -36,7 +36,8 @@ public class EquipmentRepositoryImpl implements EquipmentCustomRepository {
                         account.id,
                         account.userName,
                         account.name,
-                        account.position
+                        account.position,
+                        account.dept
                 ))
                 .from(equipment)
                 .leftJoin(equipment.account, account)

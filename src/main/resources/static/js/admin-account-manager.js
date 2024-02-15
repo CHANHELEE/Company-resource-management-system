@@ -6,10 +6,10 @@ class adminAccountManager {
         const csrfHeaderElement = document.querySelector("meta[name='_csrf_header']");
         this.header = csrfHeaderElement ? csrfHeaderElement.getAttribute("content") : null;
 
-        this.addEvent();
+        this.initEvent();
     }
 
-    addEvent() {
+    initEvent() {
         const self = this;
 
         const submitButton = document.getElementById("submitButton");
@@ -64,6 +64,7 @@ class adminAccountManager {
                     if (is_confirm) {
                         const spinnerElement = this.querySelector(".spinner-border");
                         const userId = this.getAttribute('data-id');
+                        debugger;
                         const url = `/admin/accounts/${userId}`
 
                         if (spinnerElement) {

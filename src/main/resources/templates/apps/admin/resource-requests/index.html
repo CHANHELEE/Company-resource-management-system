@@ -7,11 +7,11 @@
         <thead class="thead-dark">
         <tr>
             <th scope="col">#</th>
-            <th scope="col">시리얼넘버</th>
-            <th scope="col">장비명</th>
-            <th scope="col">장비형태</th>
-            <th scope="col">상태</th>
-            <th scope="col">구매일자</th>
+            <th scope="col">요청장비</th>
+            <th scope="col">요청상태</th>
+            <th scope="col">이름[직급]</th>
+            <th scope="col">부서</th>
+            <th scope="col">요청일</th>
         </tr>
         </thead>
         <tbody>
@@ -21,16 +21,17 @@
             </tr>
         </th:block>
         <th:block th:unless="${results.isEmpty()}">
-            <tr th:each="result, iter : ${results}">
+            <tr
+                th:each="result, iter : ${results}">
                 <th scope="row" th:text="${iter.count}"></th>
                 <td>
-                    <a class="link-secondary" th:text="${result.uniqueNum}"
-                       th:href="@{/admin/resources/{id}(id= ${result.id})}"></a>
+                    <a class="link-secondary" th:text="${result.type.getType}"
+                       th:href="@{/admin/resource-requests/{id}(id= ${result.id})}"></a>
                 </td>
-                <td th:text="${result.name}"></td>
-                <td th:text="${result.type.type}"></td>
-                <td th:text="${result.status.status}"></td>
-                <td th:text="${result.purchasedDt}"></td>
+                <td th:text="${result.requestStatus.requestStatus}"></td>
+                <td th:text="${result.userName} + '[' + ${result.position.position} + ']'"></td>
+                <td th:text="${result.dept.dept}"></td>
+                <td th:text="${#dates.format(result.createDt, 'yyyy-MM-dd')}"></td>
             </tr>
         </th:block>
         </tbody>
@@ -38,9 +39,5 @@
     <div th:replace="fragments/pagination :: pagination">Pagination</div>
 </div>
 <th:block layout:fragment="script">
-    <!--    <script th:src="@{/js/admin-account-manager.js}"></script>-->
-    <!--    <script>-->
-    <!--        new adminAccountManager();-->
-    <!--    </script>-->
 </th:block>
 </body>

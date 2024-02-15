@@ -35,14 +35,14 @@ public class AdminResourceRequestsController {
         model.addAttribute("resultCnt", results.getTotalElements());
         model.addAttribute("pagination", results);
         model.addAttribute("request", request);
-        return "/apps/admin/resources/index";
+        return "/apps/admin/resource-requests/index";
     }
 
     @GetMapping("/{id}")
     public String show(@PathVariable Long id, Model model) {
         EquipmentRequestDto equipmentRequestDto = EquipmentRequestMapper.INSTANCE.toDto(equipmentRequestService.findById(id));
         model.addAttribute("equipmentRequest", equipmentRequestDto);
-        return "/apps/admin/resources/show";
+        return "/apps/admin/resource-requests/show";
     }
 
     @PostMapping("/update")

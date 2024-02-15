@@ -1,0 +1,49 @@
+<div xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+     xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:th="http://www.thymeleaf.org"
+     th:fragment="resourceOwnershipModal">
+    <div class="modal fade" id="resourceOwnershipModal" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalLongTitle"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable h-75" id="modalScroll" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">장비이력 조회</h5>
+                </div>
+                <div class="modal-body" id="modalBody">
+                    <div id="searchArea">
+
+                    </div>
+                    <h4 class="mb-3">장비이력 <span class="fs-6 fw-bold"
+                                                th:text="' (총' + ${#lists.size(histResults)} + '건)'"></span></h4>
+                    <div class="mb-3 overflow-auto h-50" id="">
+                        <div id="tableArea">
+                            <table class="table">
+                                <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">no</th>
+                                    <th scope="col">사용자</th>
+                                    <th scope="col">장비습득일자</th>
+                                    <th scope="col">승인자</th>
+                                </tr>
+                                </thead>
+                                <tbody id="resourcesTableBody">
+                                <tr class="h-25"
+                                    th:each="hist, iter : ${histResults}">
+                                    <th scope="row" th:text="${iter.count}"></th>
+                                    <td th:text="${hist.userName} + '[' + ${hist.position.position} +']'"></td>
+                                    <td th:text="${#dates.format(hist.createDt, 'yyyy-MM-dd')}"></td>
+                                    <td th:text="${hist.confirmUserName}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

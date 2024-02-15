@@ -18,8 +18,6 @@ import prompt.manageResources.model.response.CommonResponse;
 import prompt.manageResources.service.AccountService;
 
 import org.springframework.data.domain.Pageable;
-import prompt.manageResources.service.MileageHistService;
-import prompt.manageResources.service.MileageService;
 
 
 @Controller
@@ -55,7 +53,7 @@ public class AdminAccountController {
     public String show(@PathVariable Long id, Model model) {
         AccountDto account = accountService.findById(id);
         model.addAttribute("account", account);
-        return "apps/admin/accounts/show";
+        return "apps/admin/account/show";
     }
 
     @PostMapping("/update")

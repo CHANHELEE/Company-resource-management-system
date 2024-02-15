@@ -11,10 +11,10 @@ class AdminResourceRequestManager {
         }
 
         this.isScrollActive = true;
-        this.initAddEvent();
+        this.initEvent();
     }
 
-    initAddEvent() {
+    initEvent() {
         const self = this;
 
         document.getElementById("modalBody").addEventListener("scroll", function () {
@@ -81,7 +81,7 @@ class AdminResourceRequestManager {
                    <th scope="row">1</th>
                    <td>${res.uniqueNum}</td>
                    <td>${res.name}</td>
-                   <td>${res.status === 'UNUSING' ? '가능' : '불가능'}</td>
+                   <td>${res.status === 'DISCARDED' ? '폐기' : res.status === 'UNUSING' ? '미사용중' : '사용중' }</td>
                    <td>${res.userName === null ? 'X' : res.userName}</td>`;
             tr.dataset.id = res.id;
             tr.dataset.equipmentName = res.name;

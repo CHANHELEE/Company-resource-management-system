@@ -10,6 +10,7 @@ import prompt.manageResources.model.enums.equipment.Status;
 import prompt.manageResources.model.enums.equipment.Type;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,14 +33,14 @@ public class Equipment {
     private String specification;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "type")
+    @Column(name = "type", nullable = false)
     private Type type;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     private Status status;
 
-    private Instant purchasedDt;
+    private LocalDate purchasedDt;
 
     @UpdateTimestamp
     private Instant updateDt;

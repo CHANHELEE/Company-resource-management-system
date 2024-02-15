@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<body lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/app}"
+      xmlns:padding-right="http://www.w3.org/1999/xhtml"
+      th:with="Dept = ${T(prompt.manageResources.model.enums.equipment.Type)},
+               RequestStatus = ${T(prompt.manageResources.model.enums.equipmentRequest.RequestStatus)}">
+<div layout:fragment="content" class="container">
+    <div class="row mt-4">
+        <div class="input-form col-md-12 mx-auto">
+            <h4 class="mb-3">자원요청</h4>
+            <form th:action="@{/admin/resource-requests/update}" th:method="post" class="validation-form"
+                  novalidate="" id="requestForm">
+                <input hidden th:value="${equipmentRequest.id}" th:name="id"/>
+                <input hidden th:value="${equipmentRequest.requestStatus}" id="requestStatus" th:name="requestStatus"/>
+                <input hidden th:value="${equipmentRequest.accountId}" id="accountId" th:name="accountId"/>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="name">이름</label>
+                        <input type="text" class="form-control" id="name" readonly
+                               th:value="'[' + ${equipmentRequest.position.position} +'] '+ ${equipmentRequest.userName}">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="userId">사용자 아이디</label>
+                        <input type="text" class="form-control" id="userId" readonly
+                               th:value="${equipmentRequest.userId}">
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6 mb-3">
+                        <label for="status">요청상태</label>
+                        <div type="text" class="form-control" id="status"
+                             th:text="${equipmentRequest.requestStatus.requestStatus}">
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="requestType">요청장비</label>
+                        <input type="text" class="form-control" id="requestType"
+                               th:value="${equipmentRequest.type.type}" readonly/>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="requestCn">요청내용</label>
+                    <textarea type="text" class="form-control h-50" rows="6" id="requestCn"
+                              th:text="${equipmentRequest.requestCn}" readonly></textarea>
+                </div>
+
+                <th:block th:if="${equipmentRequest.requestStatus == RequestStatus.REJECTED}">
+                    <div class="mb-3">
+                        <label for="rejectReasonForShow">거절사유</label>
+                        <textarea type="text" class="form-control h-50" rows="6" id="rejectReasonForShow"
+                                  th:text="${equipmentRequest.rejectReason}" readonly></textarea>
+                    </div>
+                </th:block>
+
+                <div class="row">
+                    <div class="col-md-11 mb-3">
+                        <label for="equipmentName">배정자원</label>
+                        <input type="text" class="form-control" id="equipmentName"
+                               th:value="${equipmentRequest.equipmentName}" readonly>
+                        <input type="text" class="form-control" id="equipmentId" name="equipmentId" readonly hidden>
+                    </div>
+                    <th:block th:unless="${equipmentRequest.requestStatus == RequestStatus.APPROVED}">
+                        <div class="col-md-1 mb-3 d-flex justify-content-center align-items-end">
+                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
+                                    data-bs-target="#resourceSearchModal">
+                                자원조회
+                            </button>
+                        </div>
+                    </th:block>
+                </div>
+                <hr class="mb-4">
+                <th:block th:if="${equipmentRequest.requestStatus != RequestStatus.PENDING}">
+                    <div>
+                        <span class="text-info font-weight-bold"
+                              th:text="'승인자 : ' + ${equipmentRequest.confirmUserName}"></span>
+                    </div>
+                </th:block>
+                <th:block th:unless="${equipmentRequest.requestStatus == RequestStatus.APPROVED}">
+                    <button type="button" class="btn btn-danger btn-lg deleteButton" id="rejectModalButton"
+                            data-bs-toggle="modal"
+                            data-bs-target="#resourceRejectModal">
+                    <span class="spinner-border spinner-border-sm visually-hidden" role="status"
+                          aria-hidden="false"></span>
+                        거절
+                    </button>
+                    <button class="btn btn-primary btn-lg btn-block" id="approveButton" type="button">
+                        <span class="spinner-border spinner-border-sm visually-hidden" role="status"
+                              aria-hidden="false"></span> 승인
+                    </button>
+                </th:block>
+                <div th:replace="fragments/modal/resourceSearchModal :: resourceSearchModal">SearchModal</div>
+                <div th:replace="fragments/modal/resourceRejectModal :: resourceRejectModal">RejectModal</div>
+            </form>
+        </div>
+    </div>
+</div>
+<th:block layout:fragment="script">
+    <script th:src="@{/js/admin-resource-request-manager.js}"></script>
+    <script>
+        new AdminResourceRequestManager();
+    </script>
+</th:block>
+</body>
