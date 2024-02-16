@@ -14,6 +14,7 @@ import static org.mapstruct.ap.internal.gem.MappingConstantsGem.ComponentModelGe
 public interface AccountMapper {
 
     @Mapping(source = "userName", target = "userId")
+    @Mapping(source = "isDeleted", target = "isDeleted")
     AccountDto toAccountDto(Account account);
 
     @Mapping(source = "userId", target = "userName")

@@ -33,12 +33,12 @@ public class AccountDto {
 
     private Instant createDt;
 
-    private Boolean is_deleted;
+    private Boolean isDeleted;
 
 //    private EquipmentRequestDto equipmentRequestDto;
 
     @QueryProjection
-    public AccountDto(Long id, String userId, String name, String email, Auth auth, Dept dept, Position position, Instant updateDt, Instant createDt, Boolean is_deleted) {
+    public AccountDto(Long id, String userId, String name, String email, Auth auth, Dept dept, Position position, Instant updateDt, Instant createDt, Boolean isDeleted) {
         this.id = id;
         this.userId = userId;
         this.name = name;
@@ -48,6 +48,6 @@ public class AccountDto {
         this.position = position;
         this.updateDt = updateDt;
         this.createDt = createDt;
-        this.is_deleted = is_deleted;
+        this.isDeleted = isDeleted;
     }
 }

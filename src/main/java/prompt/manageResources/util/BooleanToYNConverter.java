@@ -14,7 +14,7 @@ public class BooleanToYNConverter implements AttributeConverter<Boolean, Charact
      */
     @Override
     public Character convertToDatabaseColumn(Boolean attribute) {
-        return (attribute != null && attribute) ? 'Y' : 'N';
+        return (attribute) ? 'Y' : 'N';
     }
 
     /**

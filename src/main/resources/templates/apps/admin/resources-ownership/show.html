@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<body lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/app}"
+      xmlns:padding-right="http://www.w3.org/1999/xhtml"
+      th:with="Dept = ${T(prompt.manageResources.model.enums.equipment.Type)},
+               RequestStatus = ${T(prompt.manageResources.model.enums.equipmentRequest.RequestStatus)},
+               EquipmentStatus = ${T(prompt.manageResources.model.enums.equipment.Status)},
+               ResourceType = ${T(prompt.manageResources.model.enums.equipment.Type)}">
+<div layout:fragment="content" class="container">
+    <div class="row mt-4">
+        <div class="input-form col-md-12 mx-auto">
+            <h4 class="mb-3">사용자정보</h4>
+            <!--            <form th:action="@{'/admin/resources/' + ${result.id}}" th:method="post">-->
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="name">이름(직급)</label>
+                    <input type="text" class="form-control" id="name" readonly
+                           th:value="${account.name} + '[' + ${account.position.position} + ']'">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="dept">부서</label>
+                    <input type="text" class="form-control" id="dept" readonly
+                           th:value="${account.dept.dept}">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="userId">사용자 ID</label>
+                    <input type="text" class="form-control" id="userId" readonly
+                           th:value="${account.userId}">
+                </div>
+            </div>
+
+            <!--                <div class="row mb-3">-->
+            <!--                    <div class="col-md-2 mb-3">-->
+            <!--                        <label for="purchasedDt">구매일자</label>-->
+            <!--                        <input type="date" class="form-control" id="purchasedDt" name="purchasedDt"-->
+            <!--                               th:value="${result.purchasedDt}">-->
+            <!--                    </div>-->
+            <!--                    <div class="col-md-2 mb-3">-->
+            <!--                        <label for="status">장비상태</label>-->
+            <!--                        <input type="text" class="form-control" id="status" readonly-->
+            <!--                               th:value="${result.status.status}">-->
+            <!--                    </div>-->
+            <!--                    <div class="col-md-8 mb-3">-->
+            <!--                        <label for="specification">장비스펙</label>-->
+            <!--                        <input type="text" class="form-control" id="specification" name="specification"-->
+            <!--                               th:value="${result.specification}">-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <hr class="mb-4">
+            <h4 class="mb-3">사용장비 현황 <span class="fw-bold fs-6" th:text="' (총 ' + ${#lists.size(equipments)} + '건)'"
+                                           +></span></h4>
+            <div id="tableArea" class="table-responsive overflow-auto">
+                <table class="table">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col" class="col text-center">no</th>
+                        <th scope="col" class="col text-center">시리얼넘버</th>
+                        <th scope="col" class="col text-center">장비유형</th>
+                        <th scope="col" class="col text-center">장비명</th>
+                        <th scope="col" class="col col-7 text-center">장비스펙</th>
+                        <th scope="col" class="col text-center"></th>
+                    </tr>
+                    </thead>
+                    <tbody id="resourcesTableBody">
+                    <tr class="h-25" th:each="equipment, iter : ${equipments}">
+                        <th scope="row" th:text="${iter.count}" class="text-center"></th>
+                        <td th:text="${equipment.uniqueNum}" class="text-center"></td>
+                        <td th:text="${equipment.type.type}" class="text-center"></td>
+                        <td th:text="${equipment.name}" class="text-center"></td>
+                        <td th:text="${equipment.specification}" class="text-center"></td>
+                        <td class="text-center py-1">
+                            <button type="button" class="btn btn-danger btn-sm deleteButton"
+                                    th:data-accountId="${equipment.accountId}"
+                                    th:data-equipmentId="${equipment.id}">삭제
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--            <a  class="btn btn-lg btn-danger" data-bs-toggle="popover" title="Popover title" data-bs-content="And here's some amazing content. It's very engaging. Right?">Click to toggle popover</a>-->
+            <!--                <div class="d-flex justify-content-between">-->
+            <!--                    <div>-->
+            <!--                        <th:block th:unless="${histResults.isEmpty()}">-->
+            <!--                            <button type="button" class="btn btn-secondary btn-lg" id="resourceOwnership"-->
+            <!--                                    data-bs-toggle="modal"-->
+            <!--                                    data-bs-target="#resourceOwnershipModal">-->
+            <!--                                <span class="spinner-border spinner-border-sm visually-hidden" role="status"-->
+            <!--                                      aria-hidden="false"></span>-->
+            <!--                                장비이력 조회-->
+            <!--                            </button>-->
+            <!--                        </th:block>-->
+            <!--                    </div>-->
+            <!--                    <div>-->
+            <!--                        <th:block th:unless="${result.status == EquipmentStatus.DISCARDED}">-->
+            <!--                            <button class="btn btn-danger btn-lg btn-block" id="deleteButton" type="button"-->
+            <!--                                    th:data-id="${result.id}">-->
+            <!--                                        <span class="spinner-border spinner-border-sm visually-hidden" role="status"-->
+            <!--                                              aria-hidden="false"></span> 폐기-->
+            <!--                            </button>-->
+            <!--                            <button class="btn btn-primary btn-lg btn-block" id="approveButton" type="submit">-->
+            <!--                                        <span class="spinner-border spinner-border-sm visually-hidden" role="status"-->
+            <!--                                              aria-hidden="false"></span> 수정-->
+            <!--                            </button>-->
+            <!--                        </th:block>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--                <div th:replace="fragments/modal/resourceOwnershipModal :: resourceOwnershipModal">OwnershipModal</div>-->
+            <!--            </form>-->
+        </div>
+    </div>
+</div>
+<th:block layout:fragment="script">
+    <script th:src="@{/js/admin-resource-ownership-manager.js}"></script>
+    <script>
+        new AdminResourceOwnershipManager();
+        // let popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+        //
+        // let popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+        // return new bootstrap.Popover(popoverTriggerEl);
+        // });
+    </script>
+</th:block>
+</body>

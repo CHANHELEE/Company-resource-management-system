@@ -54,7 +54,8 @@ public class EquipmentOwnershipHistRepositoryImpl implements EquipmentOwnershipH
                     .on(equipmentRequest.account.eq(account))
                 .innerJoin(equipmentRequest.confirmAccount, confirmAccount)
                 .where(
-                        equipmentIdEq(equipmentOwnershipHistDto.getEquipmentId())
+                        equipmentIdEq(equipmentOwnershipHistDto.getEquipmentId()),
+                        accountIdEq(equipmentOwnershipHistDto.getAccountId())
                 )
                 .orderBy(equipmentOwnershipHist.createDt.desc())
                 .fetch();
@@ -63,5 +64,9 @@ public class EquipmentOwnershipHistRepositoryImpl implements EquipmentOwnershipH
 
     private BooleanExpression equipmentIdEq(Long id) {
         return !ObjectUtils.isEmpty(id) ? equipmentOwnershipHist.equipment.id.eq(id) : null;
+    }
+
+    private BooleanExpression accountIdEq(Long id) {
+        return !ObjectUtils.isEmpty(id) ? equipmentOwnershipHist.account.id.eq(id) : null;
     }
 }

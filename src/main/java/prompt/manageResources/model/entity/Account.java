@@ -64,7 +64,7 @@ public class Account {
 
     @Column(name = "is_deleted")
     @Convert(converter = BooleanToYNConverter.class)
-    private boolean is_deleted = false;
+    private Boolean isDeleted = false;
 
     @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
     private List<Equipment> equipments = new ArrayList<>();

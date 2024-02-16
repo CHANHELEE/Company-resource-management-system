@@ -33,7 +33,7 @@ public class AccountRepositoryImpl implements AccountCustomRepository {
                         account.position,
                         account.updateDt,
                         account.createDt,
-                        account.is_deleted
+                        account.isDeleted
                 ))
                 .from(account)
                 .where(
@@ -70,7 +70,7 @@ public class AccountRepositoryImpl implements AccountCustomRepository {
     }
 
     private BooleanExpression isDeleted(Boolean flag) {
-        return flag != null ? account.is_deleted.eq(flag) : null;
+        return flag != null ? account.isDeleted.eq(flag) : null;
     }
 
     // ========================================================================================

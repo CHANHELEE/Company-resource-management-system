@@ -12,21 +12,26 @@ import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import prompt.manageResources.model.dto.AccountDto;
+import prompt.manageResources.model.dto.EquipmentDto;
 import prompt.manageResources.model.dto.PrivateAccountDto;
 import prompt.manageResources.model.entity.Account;
 import prompt.manageResources.model.response.CommonResponse;
 import prompt.manageResources.service.AccountService;
 
 import org.springframework.data.domain.Pageable;
+import prompt.manageResources.service.EquipmentService;
+
+import java.util.List;
 
 
 @Controller
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("/admin/accounts")
-public class AdminAccountController {
+public class AdminAccountsController {
 
     private final AccountService accountService;
+    private final EquipmentService equipmentService;
 
     @GetMapping("")
     public String index(@PageableDefault(page = 0, size = 10) Pageable pageable, @ModelAttribute AccountDto accountDto, Model model, HttpServletRequest request) {
@@ -84,6 +89,43 @@ public class AdminAccountController {
 
         return isValidated ? ResponseEntity.ok(new CommonResponse<>(true, null))
                 : ResponseEntity.ok(new CommonResponse<>(false, null));
+    }
+
+    @GetMapping("/resources")
+    public String ownershipIndex(@PageableDefault(page = 0, size = 10) Pageable pageable, @ModelAttribute AccountDto accountDto, Model model, HttpServletRequest request) {
+        Page<AccountDto> results = accountService.findAllByConditions(accountDto, pageable);
+        model.addAttribute("results", results.getContent());
+        model.addAttribute("resultCnt", results.getTotalElements());
+        model.addAttribute("pagination", results);
+        model.addAttribute("request", request);
+        return "/apps/admin/resources-ownership/index";
+    }
+
+    @GetMapping("/{id}/resources")
+    public String showOwnership(@PathVariable Long id, Model model) {
+        AccountDto account = accountService.findById(id);
+        List<EquipmentDto> equipments = equipmentService.findByAccountId(id);
+
+        model.addAttribute("account", account);
+        model.addAttribute("equipments", equipments);
+        return "/apps/admin/resources-ownership/show";
+    }
+
+    @PostMapping("/{accountId}/resources/{equipmentId}")
+    public String saveOwnership(@PathVariable Long accountId, @PathVariable Long equipmentId) {
+        return "";
+    }
+
+    @PutMapping("/{accountId}/resources/{equipmentId}")
+    @ResponseBody
+    public ResponseEntity<?> updateOwnership(@PathVariable Long accountId, @PathVariable Long equipmentId) {
+        try {
+            equipmentService.updateAccountNull(accountId, equipmentId);
+        } catch (Exception e) {
+            ExceptionUtils.getStackTrace(e);
+            ResponseEntity.internalServerError().build();
+        }
+        return ResponseEntity.ok().build();
     }
 
 

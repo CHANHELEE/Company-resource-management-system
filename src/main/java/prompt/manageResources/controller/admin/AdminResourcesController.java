@@ -40,7 +40,7 @@ public class AdminResourcesController {
 
     @GetMapping("/{id}")
     public String show(@PathVariable Long id, EquipmentOwnershipHistDto equipmentOwnershipHistDto, Model model) {
-        EquipmentDto result = EquipmentMapper.INSTANCE.toDto(equipmentService.findById(id));
+        EquipmentDto result = equipmentService.findById(id);
         equipmentOwnershipHistDto.setEquipmentId(id);
         List<EquipmentOwnershipHistDto> results = equipmentOwnershipService.findAllByConditions(equipmentOwnershipHistDto);
 
