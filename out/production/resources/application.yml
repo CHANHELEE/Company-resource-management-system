@@ -1,0 +1,44 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+#    url: jdbc:mysql://prompt-mileage.cbd388idbxea.ap-northeast-2.rds.amazonaws.com:3306/prompt_mileage?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    url: jdbc:mysql://127.0.0.1:3306/prompt_mileage?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    password: 1234
+
+  thymeleaf:
+    cache: false
+    check-template: true
+    check-template-location: true
+    prefix: classpath:/templates/
+    suffix: .html
+    enabled: true
+    encoding: UTF-8
+
+#  data:
+#    web:
+#      pageable:
+#        one-indexed-parameters: true
+#        default-page-size: 10
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+      properties :
+        hibernate:
+          format_sql: true
+          show-sql: 'true'
+
+
+server:
+  port: '8091'
+  servlet:
+    context-path: /
+
+logging:
+  level:
+    org.springframework: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type: TRACE
+    org.hibernate: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE

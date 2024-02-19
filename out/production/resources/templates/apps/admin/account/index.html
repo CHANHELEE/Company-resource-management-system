@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<body lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/app}"
+      xmlns:padding-right="http://www.w3.org/1999/xhtml">
+<div layout:fragment="content" class="container mt-4">
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">ID</th>
+            <th scope="col">이름</th>
+            <th scope="col">부서</th>
+            <th scope="col">직급</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:if="${results.isEmpty()}">
+            <tr>
+                <td>데이터가 존재하지 않습니다.</td>
+            </tr>
+        </th:block>
+        <th:block th:unless="${results.isEmpty()}">
+            <tr th:each="result, iter : ${results}">
+                <th scope="row">1</th>
+                <td><a class="link-secondary" th:text="${result.userId}"
+                       th:href="@{/admin/accounts/{id}(id= ${result.id})}"></a>
+                </td>
+                <td th:text="${result.name}"></td>
+                <td th:text="${result.dept.dept}"></td>
+                <td th:text="${result.position.position}"></td>
+                <td class="py-1">
+                    <button type="button" class="btn btn-danger btn-sm deleteButton" id="deleteButton"
+                            th:data-id="${result.id}">삭제
+                    </button>
+                </td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-end">
+        <a class="btn btn-primary btn-block" href="/admin/accounts/new">
+            등록
+        </a>
+    </div>
+    <div th:replace="fragments/pagination :: pagination">Pagination</div>
+</div>
+<th:block layout:fragment="script">
+    <script th:src="@{/js/admin-account-manager.js}"></script>
+    <script>
+        new adminAccountManager();
+    </script>
+</th:block>
+</body>

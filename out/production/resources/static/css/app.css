@@ -1,0 +1,16 @@
+.clickable-row {
+  cursor: pointer;
+}
+
+.clickable-row:hover * {
+  background-color: #0d6efd;
+  color: white;
+}
+
+html, body {
+  font-family: "Noto Sans", "Noto Sans KR", sans-serif;
+  font-size: 15px;
+  word-break: keep-all;
+}
+
+/*# sourceMappingURL=app.css.map */

@@ -35,7 +35,7 @@ public class AccountDto {
 
     private Boolean isDeleted;
 
-//    private EquipmentRequestDto equipmentRequestDto;
+//    private AccountEquipmentDto equipmentRequestDto;
 
     @QueryProjection
     public AccountDto(Long id, String userId, String name, String email, Auth auth, Dept dept, Position position, Instant updateDt, Instant createDt, Boolean isDeleted) {

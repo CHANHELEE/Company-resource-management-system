@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "account")
+@Table(name = "accounts")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -39,7 +39,6 @@ public class Account {
     private String name;
 
     @JsonIgnore
-    @Column(nullable = false)
     private String password;
 
     @UpdateTimestamp
@@ -73,15 +72,17 @@ public class Account {
     private List<EquipmentOwnershipHist> equipmentOwnershipHists = new ArrayList<>();
 
     @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
-    private List<EquipmentRequest> equipmentRequests = new ArrayList<>();
+    private List<AccountEquipment> accountEquipments = new ArrayList<>();
 
     @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
     private List<MileageHist> mileageHists = new ArrayList<>();
 
-    @OneToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "mileage_id", nullable = false)
-    private Mileage mileage;
+//    @OneToOne(optional = false, fetch = FetchType.LAZY)
+//    @JoinColumn(name = "mileage_id", nullable = false)
+//    private Mileage mileage;
 
+    @Column(name = "mileage")
+    private int mileage;
 
     public void setPassword(String pw) {
         this.password = pw;

@@ -14,13 +14,11 @@ import org.springframework.util.ObjectUtils;
 import prompt.manageResources.model.dto.AccountDto;
 import prompt.manageResources.model.dto.PrivateAccountDto;
 import prompt.manageResources.model.entity.Account;
-import prompt.manageResources.model.entity.Mileage;
 import prompt.manageResources.model.entity.MileageHist;
 import prompt.manageResources.model.helper.AccountAdapter;
 import prompt.manageResources.model.mapper.AccountMapper;
 import prompt.manageResources.repository.AccountRepository;
 import prompt.manageResources.repository.MileageHistRepository;
-import prompt.manageResources.repository.MileageRepository;
 
 @Service
 @RequiredArgsConstructor
@@ -28,7 +26,6 @@ import prompt.manageResources.repository.MileageRepository;
 public class AccountService implements UserDetailsService {
 
     private final AccountRepository accountRepository;
-    private final MileageRepository mileageRepository;
     private final MileageHistRepository mileageHistRepository;
     private final PasswordEncoder passwordEncoder;
     private final AccountMapper accountMapper;
@@ -43,11 +40,9 @@ public class AccountService implements UserDetailsService {
 
     @Transactional
     public void initSave(PrivateAccountDto privateAccountDto) {
-        Mileage mileage = mileageRepository.save(new Mileage());
 
         privateAccountDto.setPassword(encodePassword(privateAccountDto.getPassword()));
         Account account = accountMapper.toAccount(privateAccountDto);
-        account.setMileage(mileage);
 
         MileageHist mileageHist = new MileageHist();
         mileageHist.setAccount(accountRepository.save(account));

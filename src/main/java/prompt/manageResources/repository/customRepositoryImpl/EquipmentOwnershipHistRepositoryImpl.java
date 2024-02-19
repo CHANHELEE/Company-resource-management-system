@@ -13,7 +13,7 @@ import prompt.manageResources.repository.customRepositroy.EquipmentOwnershipHist
 import static prompt.manageResources.model.entity.QAccount.account;
 import static prompt.manageResources.model.entity.QEquipmentOwnershipHist.equipmentOwnershipHist;
 import static prompt.manageResources.model.entity.QEquipment.equipment;
-import static prompt.manageResources.model.entity.QEquipmentRequest.equipmentRequest;
+import static prompt.manageResources.model.entity.QAccountEquipment.accountEquipment;
 
 import java.util.List;
 
@@ -49,10 +49,10 @@ public class EquipmentOwnershipHistRepositoryImpl implements EquipmentOwnershipH
                 .from(equipmentOwnershipHist)
                 .innerJoin(equipmentOwnershipHist.account, account)
                 .innerJoin(equipmentOwnershipHist.equipment, equipment)
-                .innerJoin(equipmentRequest)
-                    .on(equipmentRequest.equipment.eq(equipmentOwnershipHist.equipment))
-                    .on(equipmentRequest.account.eq(account))
-                .innerJoin(equipmentRequest.confirmAccount, confirmAccount)
+                .innerJoin(accountEquipment)
+                    .on(accountEquipment.equipment.eq(equipmentOwnershipHist.equipment))
+                    .on(accountEquipment.account.eq(account))
+                .innerJoin(accountEquipment.confirmAccount, confirmAccount)
                 .where(
                         equipmentIdEq(equipmentOwnershipHistDto.getEquipmentId()),
                         accountIdEq(equipmentOwnershipHistDto.getAccountId())

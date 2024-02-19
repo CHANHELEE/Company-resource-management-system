@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import prompt.manageResources.model.enums.Auth;
 import prompt.manageResources.model.enums.mileage.UpdateReason;
 
 import java.time.Instant;
@@ -42,7 +41,7 @@ public class MileageHist {
 
     @OneToOne
     @JoinColumn(name = "equipment_request_id")
-    private EquipmentRequest equipmentRequest;
+    private AccountEquipment accountEquipment;
 }
 
 

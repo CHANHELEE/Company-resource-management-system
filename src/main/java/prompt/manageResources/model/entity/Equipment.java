@@ -52,7 +52,7 @@ public class Equipment {
     private List<EquipmentOwnershipHist> equipmentOwnershipHists = new ArrayList<>();
 
     @OneToMany(mappedBy = "equipment", fetch = FetchType.LAZY)
-    private List<EquipmentRequest> equipmentRequests = new ArrayList<>();
+    private List<AccountEquipment> accountEquipments = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")

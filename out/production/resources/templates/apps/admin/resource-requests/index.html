@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<body lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/app}"
+      xmlns:padding-right="http://www.w3.org/1999/xhtml">
+<div layout:fragment="content" class="container mt-4">
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">요청장비</th>
+            <th scope="col">요청상태</th>
+            <th scope="col">이름[직급]</th>
+            <th scope="col">부서</th>
+            <th scope="col">요청일</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:if="${results.isEmpty()}">
+            <tr>
+                <td>데이터가 존재하지 않습니다.</td>
+            </tr>
+        </th:block>
+        <th:block th:unless="${results.isEmpty()}">
+            <tr
+                th:each="result, iter : ${results}">
+                <th scope="row" th:text="${iter.count}"></th>
+                <td>
+                    <a class="link-secondary" th:text="${result.type.getType}"
+                       th:href="@{/admin/resource-requests/{id}(id= ${result.id})}"></a>
+                </td>
+                <td th:text="${result.requestStatus.requestStatus}"></td>
+                <td th:text="${result.userName} + '[' + ${result.position.position} + ']'"></td>
+                <td th:text="${result.dept.dept}"></td>
+                <td th:text="${#dates.format(result.createDt, 'yyyy-MM-dd')}"></td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+    <div th:replace="fragments/pagination :: pagination">Pagination</div>
+</div>
+<th:block layout:fragment="script">
+</th:block>
+</body>

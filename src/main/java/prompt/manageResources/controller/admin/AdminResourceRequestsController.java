@@ -9,13 +9,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import prompt.manageResources.model.dto.AccountEquipmentDto;
 import prompt.manageResources.model.dto.EquipmentDto;
-import prompt.manageResources.model.dto.EquipmentRequestDto;
 import prompt.manageResources.model.entity.Account;
 import prompt.manageResources.model.helper.CurrentUser;
-import prompt.manageResources.model.mapper.EquipmentRequestMapper;
+import prompt.manageResources.model.mapper.AccountEquipmentMapper;
 import prompt.manageResources.model.response.SearchResponse;
-import prompt.manageResources.service.EquipmentRequestService;
+import prompt.manageResources.service.AccountEquipmentService;
 import prompt.manageResources.service.EquipmentService;
 
 
@@ -24,12 +24,12 @@ import prompt.manageResources.service.EquipmentService;
 @RequestMapping("/admin/resource-requests")
 public class AdminResourceRequestsController {
 
-    private final EquipmentRequestService equipmentRequestService;
+    private final AccountEquipmentService accountEquipmentService;
     private final EquipmentService equipmentService;
 
     @GetMapping("")
-    public String index(@PageableDefault(page = 0, size = 10) Pageable pageable, EquipmentRequestDto equipmentRequestDto, Model model, HttpServletRequest request) {
-        Page<EquipmentRequestDto> results = equipmentRequestService.findAllByConditions(equipmentRequestDto, pageable);
+    public String index(@PageableDefault(page = 0, size = 10) Pageable pageable, AccountEquipmentDto accountEquipmentDto, Model model, HttpServletRequest request) {
+        Page<AccountEquipmentDto> results = accountEquipmentService.findAllByConditions(accountEquipmentDto, pageable);
 
         model.addAttribute("results", results.getContent());
         model.addAttribute("resultCnt", results.getTotalElements());
@@ -40,15 +40,15 @@ public class AdminResourceRequestsController {
 
     @GetMapping("/{id}")
     public String show(@PathVariable Long id, Model model) {
-        EquipmentRequestDto equipmentRequestDto = EquipmentRequestMapper.INSTANCE.toDto(equipmentRequestService.findById(id));
-        model.addAttribute("equipmentRequest", equipmentRequestDto);
+        AccountEquipmentDto accountEquipmentDto = AccountEquipmentMapper.INSTANCE.toDto(accountEquipmentService.findById(id));
+        model.addAttribute("accountEquipment", accountEquipmentDto);
         return "/apps/admin/resource-requests/show";
     }
 
     @PostMapping("/update")
-    public String update(EquipmentRequestDto equipmentRequestDto, @CurrentUser Account currentUser) {
-        String equipmentId = equipmentRequestDto.getId().toString();
-        equipmentRequestService.confirmEquipmentRequest(equipmentRequestDto, currentUser);
+    public String update(AccountEquipmentDto accountEquipmentDto, @CurrentUser Account currentUser) {
+        String equipmentId = accountEquipmentDto.getId().toString();
+        accountEquipmentService.confirmEquipmentRequest(accountEquipmentDto, currentUser);
         return "redirect:/admin/resource-requests/".concat(equipmentId);
     }
 

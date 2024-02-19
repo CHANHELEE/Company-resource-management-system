@@ -16,7 +16,7 @@ import java.time.Instant;
 @Setter
 @NoArgsConstructor
 public class EquipmentOwnershipHist {
-
+    // TODO 삭제
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
